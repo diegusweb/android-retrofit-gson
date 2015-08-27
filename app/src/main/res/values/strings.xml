@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GeoTest</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
