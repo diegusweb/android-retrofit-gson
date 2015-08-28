@@ -1,12 +1,20 @@
 package dev.util.com.geotest;
 
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
+
+import dev.util.com.geotest.rest.RestClient;
+import dev.util.com.geotest.rest.model.Country;
 
 public class MapsActivity extends FragmentActivity {
 
@@ -62,4 +70,32 @@ public class MapsActivity extends FragmentActivity {
     private void setUpMap() {
         mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
     }
+
+    private class DownloadFilesTask extends AsyncTask<String, Integer, List<Country>> {
+
+        protected List<Country> doInBackground(String... urls) {
+
+            RestClient api = new RestClient();
+            return api.GetllCountries();
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+
+        }
+
+        protected void onPostExecute(List<Country> results) {
+
+            StringBuilder sb = new StringBuilder();
+            for(Country country : results)
+            {
+                Log.d("Countries Output: ", country.getName());
+                sb.append(country.getName() + "\n");
+            }
+
+            //((TextView) findViewById(R.id.txt_log)).setText(sb.toString());
+
+        }
+    }
+
+
 }
